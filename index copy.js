@@ -1,25 +1,34 @@
 const express = require("express");
-const dotenv = require("dotenv").config();
+const procces = require("dotenv").config();
 const cors = require("cors");
 const Joi = require("joi");
 
-const PORT = process.env.PORT || 3000; // Set default port
+const PORT = procces?.parsed?.PORT;
 
 const app = express();
 app.use(cors());
-app.use(express.json()); // This must come before routes
 
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`PORT http://localhost:${PORT}`);
 });
 
+app.use(express.json());
 app.get("/api/users", (req, res) => {
   res.send({
     status: "Success",
     data: [
-      { id: 1, name: "Sankari" },
-      { id: 2, name: "Keerthi" },
-      { id: 3, name: "Ramya" },
+      {
+        id: 1,
+        name: "Sankari",
+      },
+      {
+        id: 2,
+        name: "Keerthi",
+      },
+      {
+        id: 3,
+        name: "Ramya",
+      },
     ],
   });
 });
@@ -32,15 +41,15 @@ app.post("/api/add/users", (req, res) => {
       .pattern(/^\d{10}$/)
       .required(),
   });
-
   const { error } = schema.validate(req.body);
   if (error) {
     return res.status(400).send(error.details[0].message);
   }
-
-  res.send({ status: "Success", message: "Profile created successfully" });
+  res.send({ status: "Success", message: `Profile created Successfuly` });
 });
 
 app.delete("/api/user/delete", (req, res) => {
-  res.send({ status: "User Deleted Successfully" });
+  res.send({
+    status: "User Deleted Successfuly",
+  });
 });
